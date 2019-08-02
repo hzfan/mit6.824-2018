@@ -58,11 +58,13 @@ func doReduce(
 		inFileName := reduceName(jobName, i, reduceTask)
 		inFile, _ := os.Open(inFileName)
 		dec := json.NewDecoder(inFile)
-		err := dec.Decode(&kv)
-		if err != nil {
-			log.Fatal(err)
+		for dec.More() {
+			err := dec.Decode(&kv)
+			if err != nil {
+				log.Fatal(err)
+			}
+			kvs = append(kvs, kv)	
 		}
-		kvs = append(kvs, kv)
 	}
 
 	// Sort by key
