@@ -67,7 +67,7 @@ func doReduce(
 		}
 		fmt.PrintLn(len(kvs))
 	}
-x`
+
 	// Sort by key
 	sort.Slice(kvs, func(i, j int) bool {
 		return kvs[i].Key < kvs[j].Key
