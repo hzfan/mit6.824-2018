@@ -30,9 +30,7 @@ func schedule(jobName string, mapFiles []string, nReduce int, phase jobPhase, re
 	var wg sync.WaitGroup
 	wg.Add(ntasks)
 	for i := 0; i < ntasks; i++ {
-		fmt.Println("fetch from channel...")
 		srv := <- registerChan
-		fmt.Println("success fetched...")
 		var file string
 		switch phase {
 			case mapPhase:
