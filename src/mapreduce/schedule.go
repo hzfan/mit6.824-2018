@@ -24,6 +24,8 @@ func schedule(jobName string, mapFiles []string, nReduce int, phase jobPhase, re
 	}
 
 	fmt.Printf("Schedule: %v %v tasks (%d I/Os)\n", ntasks, phase, n_other)
+	var wg sync.WaitGroup
+	wg.Add(ntasks)
 	for i := 0; i < ntasks; i++ {
 		fmt.Println("fetch from channel...")
 		srv := <- registerChan
@@ -36,8 +38,13 @@ func schedule(jobName string, mapFiles []string, nReduce int, phase jobPhase, re
 				file = ""
 		}
 		args := DoTaskArgs{jobName, file, phase, i, n_other}
-		go call(srv, "Worker.DoTask", args, nil)
+		go func() {
+			call(srv, "Worker.DoTask", args, nil)
+			wg.Done()
+		}
 	}
+	wg.Wait()
+	
 	// All ntasks tasks have to be scheduled on workers. Once all tasks
 	// have completed successfully, schedule() should return.
 	//
