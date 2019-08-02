@@ -24,7 +24,18 @@ func schedule(jobName string, mapFiles []string, nReduce int, phase jobPhase, re
 	}
 
 	fmt.Printf("Schedule: %v %v tasks (%d I/Os)\n", ntasks, phase, n_other)
-
+	for i := 0; i < ntasks; i++ {
+		srv := <- registerChan
+		var file string
+		switch phase {
+			case mapPhase:
+				file = mapFiles[i]
+			case reducePhase:
+				file = ""
+		}
+		args := DoTaskArgs{jobName, file, phase, i, n_other}
+		call(srv, "Worker.DoTask", args, nil)
+	}
 	// All ntasks tasks have to be scheduled on workers. Once all tasks
 	// have completed successfully, schedule() should return.
 	//
