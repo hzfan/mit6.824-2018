@@ -66,7 +66,6 @@ func doReduce(
 			}
 			kvs = append(kvs, kv)
 		}
-		fmt.Println(len(kvs))
 	}
 
 	// Sort by key
@@ -92,5 +91,11 @@ func doReduce(
 			values = make([]string, 0)
 		}
 		values = append(values, kv.Value)
+	}
+	if len(kvs) > 0 {
+		err := enc.Encode(KeyValue{key, reduceF(key, values)})
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 }
