@@ -25,7 +25,9 @@ func schedule(jobName string, mapFiles []string, nReduce int, phase jobPhase, re
 
 	fmt.Printf("Schedule: %v %v tasks (%d I/Os)\n", ntasks, phase, n_other)
 	for i := 0; i < ntasks; i++ {
+		fmt.Println("fetch from channel...")
 		srv := <- registerChan
+		fmt.Println("success fetched...")
 		var file string
 		switch phase {
 			case mapPhase:
