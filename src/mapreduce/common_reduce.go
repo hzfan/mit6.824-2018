@@ -63,10 +63,11 @@ func doReduce(
 			if err != nil {
 				log.Fatal(err)
 			}
-			kvs = append(kvs, kv)	
+			kvs = append(kvs, kv)
 		}
+		fmt.PrintLn(len(kvs))
 	}
-
+x`
 	// Sort by key
 	sort.Slice(kvs, func(i, j int) bool {
 		return kvs[i].Key < kvs[j].Key
