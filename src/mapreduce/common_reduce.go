@@ -66,7 +66,7 @@ func doReduce(
 			}
 			kvs = append(kvs, kv)
 		}
-		fmt.PrintLn(len(kvs))
+		fmt.Println(len(kvs))
 	}
 
 	// Sort by key
