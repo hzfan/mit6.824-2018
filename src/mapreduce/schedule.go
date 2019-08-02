@@ -34,7 +34,7 @@ func schedule(jobName string, mapFiles []string, nReduce int, phase jobPhase, re
 				file = ""
 		}
 		args := DoTaskArgs{jobName, file, phase, i, n_other}
-		call(srv, "Worker.DoTask", args, nil)
+		go call(srv, "Worker.DoTask", args, nil)
 	}
 	// All ntasks tasks have to be scheduled on workers. Once all tasks
 	// have completed successfully, schedule() should return.
