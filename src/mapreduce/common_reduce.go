@@ -57,7 +57,7 @@ func doReduce(
 		var kv KeyValue
 		inFileName := reduceName(jobName, i, reduceTask)
 		inFile, _ := os.Open(inFileName)
-		dec := json.newDecoder(inFile)
+		dec := json.NewDecoder(inFile)
 		err := dec.Decode(&kv)
 		if err != nil {
 			log.Fatal(err)
@@ -71,20 +71,20 @@ func doReduce(
 	})
 
 	// Go through the kvs, segment with every single key
-	oFile := os.Create(outFile)
+	oFilem, _ := os.Create(outFile)
 	defer oFile.Close()
 	enc := json.NewEncoder(oFile)
 	var values []string
 	var key string
 	for i, kv := range kvs {
-		if i == 0 || kvs[i - 1].key != kv.key {
+		if i == 0 || kvs[i - 1].Key != kv.Key {
 			if i > 0 {
-				err = enc.Encode(KeyValue{key, reduceF(key, values)})
+				err := enc.Encode(KeyValue{key, reduceF(key, values)})
 				if err != nil {
 					log.Fatal(err)
 				}
 			}
-			key = kv.key
+			key = kv.Key
 			values = make([]string, 0)
 		}
 		values = append(values, kv.value)

@@ -63,14 +63,14 @@ func doMap(
 	if err != nil {
 		log.Fatal(err)
 	}
-	content = string(fileContent)
+	content := string(fileContent)
 	// Map
 	kvs := mapF(inFile, content)
 	// Create intermediate files
-	encs := make([]*json.Encoder, 0, rReduce)
+	encs := make([]*json.Encoder, 0, nReduce)
 	for i := 0; i < nReduce; i++ {
 		rFileName := reduceName(jobName, mapTask, i)
-		rFile := os.Create(rFileName)
+		rFile, _ := os.Create(rFileName)
 		defer rFile.Close()
 		append(encs, json.NewEncoder(rFile))
 	}
