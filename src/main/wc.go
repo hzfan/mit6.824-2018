@@ -17,7 +17,7 @@ import (
 // of key/value pairs.
 //
 func mapF(filename string, contents string) []mapreduce.KeyValue {
-	keys := strings.FieldsFunc(content, func(c rune) bool {
+	keys := strings.FieldsFunc(contents, func(c rune) bool {
 		return !unicode.IsLetter(c)
 	})
 	ret := make([]mapreduce.KeyValue, 0)
@@ -35,7 +35,7 @@ func mapF(filename string, contents string) []mapreduce.KeyValue {
 //
 func reduceF(key string, values []string) string {
 	cnt := len(values)
-	return strconv(cnt)
+	return strconv.itoa(cnt)
 	// Your code here (Part II).
 }
 
