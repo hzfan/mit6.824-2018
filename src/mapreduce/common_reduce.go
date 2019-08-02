@@ -3,7 +3,7 @@ package mapreduce
 import (
 	"sort"
 	"os"
-	"json"
+	"encoding/json"
 	"log"
 )
 

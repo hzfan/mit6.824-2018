@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 	"io/ioutil"
-	"json"
+	"encoding/json"
 )
 
 func doMap(
