@@ -1,7 +1,6 @@
 package mapreduce
 
 import (
-	"fmt"
 	"sort"
 	"os"
 	"encoding/json"
