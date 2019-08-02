@@ -72,7 +72,7 @@ func doMap(
 		rFileName := reduceName(jobName, mapTask, i)
 		rFile, _ := os.Create(rFileName)
 		defer rFile.Close()
-		append(encs, json.NewEncoder(rFile))
+		encs = append(encs, json.NewEncoder(rFile))
 	}
 	// Divide by hash
 	for _, kv := range kvs {

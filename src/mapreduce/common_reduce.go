@@ -71,7 +71,7 @@ func doReduce(
 	})
 
 	// Go through the kvs, segment with every single key
-	oFilem, _ := os.Create(outFile)
+	oFile, _ := os.Create(outFile)
 	defer oFile.Close()
 	enc := json.NewEncoder(oFile)
 	var values []string
@@ -87,6 +87,6 @@ func doReduce(
 			key = kv.Key
 			values = make([]string, 0)
 		}
-		values = append(values, kv.value)
+		values = append(values, kv.Value)
 	}
 }
