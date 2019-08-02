@@ -3,6 +3,8 @@ package mapreduce
 import (
 	"sort"
 	"os"
+	"json"
+	"log"
 )
 
 func doReduce(
@@ -54,7 +56,7 @@ func doReduce(
 	for i := 0; i < nMap; i++ {
 		var kv KeyValue
 		inFileName := reduceName(jobName, i, reduceTask)
-		inFile := os.Open(inFileName)
+		inFile, _ := os.Open(inFileName)
 		dec := json.newDecoder(inFile)
 		err := dec.Decode(&kv)
 		if err != nil {
@@ -65,7 +67,7 @@ func doReduce(
 
 	// Sort by key
 	sort.Slice(kvs, func(i, j int) bool {
-		return kvs[i].key < kvs[j].key
+		return kvs[i].Key < kvs[j].Key
 	})
 
 	// Go through the kvs, segment with every single key
