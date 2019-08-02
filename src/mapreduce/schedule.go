@@ -44,6 +44,7 @@ func schedule(jobName string, mapFiles []string, nReduce int, phase jobPhase, re
 		go func() {
 			call(srv, "Worker.DoTask", args, nil)
 			wg.Done()
+			fmt.Println("Done")
 		}()
 	}
 	wg.Wait()
