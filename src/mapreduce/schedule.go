@@ -40,7 +40,11 @@ func schedule(jobName string, mapFiles []string, nReduce int, phase jobPhase, re
 		}
 		args := DoTaskArgs{jobName, file, phase, i, n_other}
 		go func() {
-			call(srv, "Worker.DoTask", args, nil)
+			ret := call(srv, "Worker.DoTask", args, nil)
+			for ret == false {
+				srv = <- registerChan
+				ret := call(srv, "Worker.DoTask", args, nil)
+			}
 			wg.Done()
 			registerChan <- srv
 		}()
