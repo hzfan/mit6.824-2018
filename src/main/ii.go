@@ -9,6 +9,19 @@ import "mapreduce"
 // and the value is the file's contents. The return value should be a slice of
 // key/value pairs, each represented by a mapreduce.KeyValue.
 func mapF(document string, value string) (res []mapreduce.KeyValue) {
+	keys := strings.FieldsFunc(contents, func(c rune) bool {
+		return !unicode.IsLetter(c)
+	})
+	ret := make([]mapreduce.KeyValue, 0)
+	vis := make(map[string]bool)
+	for _, key := range keys {
+		val, ok := vis[key]
+		if ok == false {
+			ret = append(ret, mapreduce.KeyValue{key, document})
+			vis[key] = true
+		}
+	}
+	return ret
 	// Your code here (Part V).
 }
 
@@ -16,6 +29,9 @@ func mapF(document string, value string) (res []mapreduce.KeyValue) {
 // list of that key's string value (merged across all inputs). The return value
 // should be a single output value for that key.
 func reduceF(key string, values []string) string {
+	sort.Sort(values)
+	ret := strings.Join(values, ",")
+	return ret
 	// Your code here (Part V).
 }
 
