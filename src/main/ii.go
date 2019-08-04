@@ -20,7 +20,7 @@ func mapF(document string, value string) (res []mapreduce.KeyValue) {
 	ret := make([]mapreduce.KeyValue, 0)
 	vis := make(map[string]bool)
 	for _, key := range keys {
-		val, ok := vis[key]
+		_, ok := vis[key]
 		if ok == false {
 			ret = append(ret, mapreduce.KeyValue{key, document})
 			vis[key] = true
