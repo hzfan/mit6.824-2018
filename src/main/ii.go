@@ -7,6 +7,7 @@ import (
 	"sort"
 	"strings"
 	"unicode"
+	"strconv"
 )
 
 // The mapping function is called once for each piece of the input.
@@ -38,7 +39,7 @@ func reduceF(key string, values []string) string {
 		return values[i] < values[j]
 	})
 	ret := strings.Join(values, ",")
-	ret = len(values) + " " + ret
+	ret = strconv.Itoa(len(values)) + " " + ret
 	return ret
 	// Your code here (Part V).
 }
