@@ -6,6 +6,7 @@ import (
 	"mapreduce"
 	"sort"
 	"strings"
+	"unicode"
 )
 
 // The mapping function is called once for each piece of the input.
@@ -13,7 +14,7 @@ import (
 // and the value is the file's contents. The return value should be a slice of
 // key/value pairs, each represented by a mapreduce.KeyValue.
 func mapF(document string, value string) (res []mapreduce.KeyValue) {
-	keys := strings.FieldsFunc(contents, func(c rune) bool {
+	keys := strings.FieldsFunc(value, func(c rune) bool {
 		return !unicode.IsLetter(c)
 	})
 	ret := make([]mapreduce.KeyValue, 0)
@@ -33,7 +34,9 @@ func mapF(document string, value string) (res []mapreduce.KeyValue) {
 // list of that key's string value (merged across all inputs). The return value
 // should be a single output value for that key.
 func reduceF(key string, values []string) string {
-	sort.Sort(values)
+	sort.Slice(values, func (i, j int) bool {
+		return values[i] < values[j]
+	})
 	ret := strings.Join(values, ",")
 	return ret
 	// Your code here (Part V).
